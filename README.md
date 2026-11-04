@@ -1,9 +1,9 @@
 Hello,欢迎来到我的主页  
 也欢迎来看一个12年的小屁孩发疯  
-[这里是我的个人博客~](http://crazying-dev.top)    
+[这里是我的个人博客~](http://crazying-dev.top)(https://leaf-catlin.com) 
 罗小黑的铁粉一枚  
 会更一些有关罗小黑的仓库，比如
-- [众生之门(有点累了，不想写了)](https://github.com/crazying-dev/The-Door-of-All-Beings)
+- [众生之门(正在)](https://github.com/crazying-dev/The-Door-of-All-Beings)
 - [妖精论坛(这个已经完成了)](https://github.com/crazying-dev/forum)
 
 ---
