@@ -16,22 +16,25 @@ except ImportError:
 app = Flask(__name__)
 
 base = 'path/base.html'
-webside = 'www.crazying-dev.top'
+webside = os.environ.get('CRAZYING_SITE_DOMAIN', 'leaf-catlin.com')
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ---------------------------------------------------------------------------
 # 静态资源域名 / 版本号
-# 都可用环境变量覆盖，方便本地预览（默认走线上 CDN）：
-#   CRAZYING_ASSETS_BASE   assets.crazying-dev.top（CSS / JS）
-#   CRAZYING_IMG_BASE      img.crazying-dev.top（图片 / 头像）
-#   CRAZYING_API_BASE      api.crazying-dev.top（文章 / 作品 / 友人 / 邮件）
+# 原 assets / img 两个子域名已合并进主站 leaf-catlin.com，默认走同域相对路径；
+# 仍可用环境变量覆盖，方便本地预览或临时切回 CDN：
+#   CRAZYING_ASSETS_BASE   CSS / JS 根地址（默认空 = 同域，如 /CSS、/JS）
+#   CRAZYING_IMG_BASE      图片 / 头像根地址（默认空 = 同域）
+#   CRAZYING_API_BASE      文章 / 作品 / 友人 / 邮件根地址（默认空 = 同域）
+#   CRAZYING_SITE_BASE     站点绝对地址（RSS / favicon 跳转用）
 #   CRAZYING_STATUS_API    妖精论坛的状态日志接口（网站状态统计图的数据源）
 #                          注意用 www 域名：裸域会 301 且跳转响应没有 CORS 头
 #   CRAZYING_ASSETS_VER    资源版本号，改这个就能让浏览器立刻拿到新 CSS/JS
 # ---------------------------------------------------------------------------
-ASSETS = os.environ.get('CRAZYING_ASSETS_BASE', '//assets.crazying-dev.top').rstrip('/')
-IMG = os.environ.get('CRAZYING_IMG_BASE', '//img.crazying-dev.top').rstrip('/')
-API = os.environ.get('CRAZYING_API_BASE', 'https://api.crazying-dev.top').rstrip('/')
+SITE = os.environ.get('CRAZYING_SITE_BASE', 'https://leaf-catlin.com').rstrip('/')
+ASSETS = os.environ.get('CRAZYING_ASSETS_BASE', '').rstrip('/')
+IMG = os.environ.get('CRAZYING_IMG_BASE', '').rstrip('/')
+API = os.environ.get('CRAZYING_API_BASE', '').rstrip('/')
 STATUS_API = os.environ.get('CRAZYING_STATUS_API', 'https://www.yjlt.top/api/status-log')
 ASSETS_VER = os.environ.get('CRAZYING_ASSETS_VER', '29')
 
@@ -260,7 +263,8 @@ def statsGet():
 
 @app.route('/favicon.ico')
 def favicon():
-	return redirect("https://img.crazying-dev.top/crazying-dev.top/favicon.ico")
+	# 图片已合并到主站同域，站点图标放在 /leaf-catlin.com/ 下
+	return redirect(SITE + '/leaf-catlin.com/favicon.ico')
 
 
 @app.route('/bg')
@@ -283,7 +287,9 @@ def bg():
 
 @app.route('/rss.xml')
 def rss():
-	return redirect("https://api.crazying-dev.top/rss.xml")
+	# RSS 由后端的接口服务提供，走 /api/rss.xml 前缀，
+	# 不要直接跳回 /rss.xml 本身，否则会形成循环跳转
+	return redirect(API + '/api/rss.xml' if API else '/api/rss.xml')
 
 
 @app.errorhandler(404)
