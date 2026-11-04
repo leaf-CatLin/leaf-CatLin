@@ -35,11 +35,17 @@ SITE = os.environ.get('CRAZYING_SITE_BASE', 'https://leaf-catlin.com').rstrip('/
 ASSETS = os.environ.get('CRAZYING_ASSETS_BASE', '').rstrip('/')
 IMG = os.environ.get('CRAZYING_IMG_BASE', '').rstrip('/')
 API = os.environ.get('CRAZYING_API_BASE', '').rstrip('/')
+# 歌单音频体积太大（单个约 1.8MB，共 11 个），暂不进仓库，仍走旧 CDN
+AUDIO = os.environ.get('CRAZYING_AUDIO_BASE', 'https://assets.crazying-dev.top').rstrip('/')
 STATUS_API = os.environ.get('CRAZYING_STATUS_API', 'https://www.yjlt.top/api/status-log')
 ASSETS_VER = os.environ.get('CRAZYING_ASSETS_VER', '29')
 
+# 静态资源目录：CSS / JS / 字体 / 头像图片 / 其它图片，都已合并进本仓库 server/static
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+
 # 注入模板全局变量：模板里直接写 {{ ASSETS }} / {{ IMG }} / {{ API }} / {{ ASSETS_VER }}
-app.jinja_env.globals.update(ASSETS=ASSETS, IMG=IMG, API=API, STATUS_API=STATUS_API, ASSETS_VER=ASSETS_VER)
+app.jinja_env.globals.update(ASSETS=ASSETS, IMG=IMG, API=API, AUDIO=AUDIO,
+							 STATUS_API=STATUS_API, ASSETS_VER=ASSETS_VER)
 
 
 def render_page(content_template, page_title=None, page_desc=None, status=200, **extra):
@@ -261,10 +267,36 @@ def statsGet():
 
 #page.py end
 
+# 静态资源：原来分散在 assets / img 两个子域名，现已合并进 server/static，
+# 对外仍是同域路径 /CSS、/JS、/font、/leaf-catlin.com、/other
+@app.route('/CSS/<path:filename>')
+def static_css(filename):
+	return send_from_directory(os.path.join(STATIC_DIR, 'CSS'), filename)
+
+
+@app.route('/JS/<path:filename>')
+def static_js(filename):
+	return send_from_directory(os.path.join(STATIC_DIR, 'JS'), filename)
+
+
+@app.route('/font/<path:filename>')
+def static_font(filename):
+	return send_from_directory(os.path.join(STATIC_DIR, 'font'), filename)
+
+
+@app.route('/leaf-catlin.com/<path:filename>')
+def static_img(filename):
+	return send_from_directory(os.path.join(STATIC_DIR, 'leaf-catlin.com'), filename)
+
+
+@app.route('/other/<path:filename>')
+def static_other(filename):
+	return send_from_directory(os.path.join(STATIC_DIR, 'other'), filename)
+
+
 @app.route('/favicon.ico')
 def favicon():
-	# 图片已合并到主站同域，站点图标放在 /leaf-catlin.com/ 下
-	return redirect(SITE + '/leaf-catlin.com/favicon.ico')
+	return send_from_directory(os.path.join(STATIC_DIR, 'leaf-catlin.com'), 'favicon.ico')
 
 
 @app.route('/bg')

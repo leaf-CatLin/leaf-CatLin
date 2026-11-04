@@ -1,0 +1,2287 @@
+/* 借鉴自哔哩哔哩的CSS文件:https://s1.hdslb.com/bfs/static/shanks/laputa-home/assets/index-4e78abb0.css 源文件在本仓库 /assets/CSS/From/Bilibili/win/win.css */
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+@font-face {
+    font-family: 'OriginalHandWrite';
+    src: url('/font/CEFFontsCJK.woff2') format('woff2'),url('https://ciallovo.top/assets/fonts/CEFFontsCJK.woff2') format('woff2'), url('https://cdn.bootcdn.net/ajax/libs/webfont/1.6.28/fonts/ma-shan-zheng.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* 防止字体加载前显示默认字体 */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    min-height: 100vh;
+    position: relative;
+    background: transparent;
+    min-width: 630px;
+}
+@media (min-width: 1000px) {
+    body {
+        min-width: 1200px;
+    }
+}
+html,body {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1;
+    color: var(--text1);
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    text-size-adjust: none;
+    overscroll-behavior: none;
+    overflow-anchor: none;
+    margin: 0;
+    padding: 0;
+    /* font-family: PingFang SC,HarmonyOS_Regular,Helvetica Neue,Microsoft YaHei,sans-serif */ /* 非常抱歉，我找到了更好的字体，不用你了,留着做备用字体吧 */
+    font-family: 'OriginalHandWrite', "楷体", KaiTi, "华文行楷", STXingkai, 'Ma Shan Zheng', cursive, sans-serif, PingFang SC, HarmonyOS_Regular, Helvetica Neue, Microsoft YaHei, serif, -apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif !important;
+}
+@media(max-resolution: 1dppx),(-webkit-max-device-pixel-ratio:1) {
+    html,body {
+        font-family: 'OriginalHandWrite', 'Ma Shan Zheng', cursive, -apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,sans-serif !important; /* 改了亿点点 */
+    }
+}
+
+
+
+header{
+    display: flex;
+    background-color: rgba(0,0,0,0);
+    height: 70px;
+}
+
+footer {
+    width: 100%;
+    height: 180px;
+    background: rgb(150 150 150 / 0.7);
+    text-align: center;
+    padding: 20px 0;
+    color: #252525;
+    font-size: 14px;
+    /* position: static; */
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0;
+}
+
+
+
+
+dd {
+    font-size: 16px;
+}
+dl {
+    font-size: 16px;
+}
+ol {
+    font-size: 16px;
+}
+ul {
+    font-size: 16px;
+}
+button{
+    background: rgba(0,0,0,0);
+    /*font-size: 16px;*/
+    outline: 0;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+ol{
+    list-style: none;
+}
+ul,li {
+    list-style: none;
+}
+li {
+     list-style: none;
+}
+
+a {
+    outline: 0;
+    color: inherit;
+    text-decoration: none;
+    -webkit-touch-callout: none;
+}
+
+i{
+    font-style: normal
+}
+em {
+    font-style: normal
+}
+
+h1{
+    font-weight: 400;
+}
+h2{
+    font-weight: 400;
+}
+h3{
+    font-weight: 400;
+}
+h4{
+    font-weight: 400;
+}
+h5{
+    font-weight: 400;
+}
+h6{
+    font-weight: 400;
+}
+
+svg,img {
+    /*display: block;*/
+    object-fit: cover;
+    min-width: 1px;
+    min-height: 1px;
+    max-width: 100%;
+    -webkit-touch-callout: none;
+    all: inherit;
+    display: inherit;
+    width: inherit;
+    height: inherit;
+}
+
+svg,img *{
+    all:inherit;
+}
+
+textarea {
+    resize: none;
+    outline: 0;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+select {
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: 0;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+}
+p {
+    white-space: nowrap;   /* 禁止换行 */
+    font-weight: 400;
+}
+
+
+input[type=button],input[type=reset],input[type=submit] {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 100px #fff inset;
+    box-shadow: 0 0 0 100px #fff inset
+}
+input {
+    outline: 0;
+    border: none;
+    font-size: inherit;
+    font-family: inherit
+}
+
+
+
+
+
+
+.bg-box {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top center;
+    filter: blur(6px) brightness(0.7);
+    transform: scale(1.1);
+    z-index: -1;
+    transition: opacity 0.3s ease; /* 平滑过渡 */
+}
+
+/* 电脑端横图 */
+@media (min-width: 1020px) {
+    .bg-box-for1 { background-image: url("https://img.hk256.top/random?t=webp&o=h"); }
+    .bg-box-for2 { display: none; }
+}
+
+/* 1000px - 1020px 渐变区间 */
+@media (min-width: 1000px) and (max-width: 1020px) {
+    .bg-box-for1, .bg-box-for2 { display: block; }
+}
+@media (min-width: 1018px) and (max-width: 1020px) { .bg-box-for1{opacity:0.9} .bg-box-for2{opacity:0.1} }
+@media (min-width: 1016px) and (max-width: 1018px) { .bg-box-for1{opacity:0.8} .bg-box-for2{opacity:0.2} }
+@media (min-width: 1014px) and (max-width: 1016px) { .bg-box-for1{opacity:0.7} .bg-box-for2{opacity:0.3} }
+@media (min-width: 1012px) and (max-width: 1014px) { .bg-box-for1{opacity:0.6} .bg-box-for2{opacity:0.4} }
+@media (min-width: 1010px) and (max-width: 1012px) { .bg-box-for1{opacity:0.5} .bg-box-for2{opacity:0.5} }
+@media (min-width: 1008px) and (max-width: 1010px) { .bg-box-for1{opacity:0.4} .bg-box-for2{opacity:0.6} }
+@media (min-width: 1006px) and (max-width: 1008px) { .bg-box-for1{opacity:0.3} .bg-box-for2{opacity:0.7} }
+@media (min-width: 1004px) and (max-width: 1006px) { .bg-box-for1{opacity:0.2} .bg-box-for2{opacity:0.8} }
+@media (min-width: 1002px) and (max-width: 1004px) { .bg-box-for1{opacity:0.1} .bg-box-for2{opacity:0.9} }
+@media (min-width: 1000px) and (max-width: 1002px) { .bg-box-for1{opacity:0.0} .bg-box-for2{opacity:1.0} }
+
+/* 手机端竖图 */
+@media (max-width: 1000px) {
+    .bg-box-for2 { background-image: url("https://img.hk256.top/random?t=webp&o=v"); }
+    .bg-box-for1 { display: none; }
+}
+
+#FooterWithNone{
+    background: transparent;
+    height: 200px;
+}
+
+#Go-to-Github{
+    height: 100%;
+    width: 70px!important;
+    aspect-ratio: unset;
+    display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    /* display: flex;*/
+    align-items: center;
+    justify-content: center;
+}
+#me {
+    height: calc(100% - 10px);
+    margin-top: 5px ;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    border-radius: 50%;
+    width: 60px;
+    /*height: 60px; */
+    flex-shrink: 0;
+    object-fit: cover;
+}
+.HeaderButton{
+    display: flex;
+    height: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+    margin-right: 15px;
+    margin-left: 20px;
+    white-space: nowrap;
+    width: auto;
+}
+#title {
+    display: flex;
+    position: fixed;
+    right: 20px;
+    transition: all 0.8s ease;
+    white-space: nowrap;
+    opacity: 1;
+    visibility: visible;
+}
+
+.DontTon *{
+    display: inline-block;
+}
+.DontTon {
+    min-width: 630px;
+}
+.card{
+    height: 0;
+    width: auto;
+    background-color: rgba(142, 142, 142, 0);
+    font-size: 19px;
+    border-radius: 5px;
+    color: rgba(0,0,0,1);
+    /* display: none; */
+    white-space: nowrap;
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    transition:
+            left 0.01s ease,
+            top 0.01s ease,
+            all 0.2s ease;
+}
+.card img{
+    background: rgba(0,0,0,0);
+}
+
+.aBackground {
+    border-radius: 8px;
+    width: auto;
+    display: inline-block;
+    position: relative; /* 必须加，让动画层能定位 */
+    overflow: hidden;   /* 必须加，让背景不会圆角溢出 */
+    cursor: pointer;
+    z-index: 1;
+}
+
+/* 背景动画层（JS控制） */
+.aBackground::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgb(255 255 0 / 0.8));
+    z-index: -1;
+    transform: scaleX(0); /* 默认缩成0（看不见） */
+    transform-origin: left; /* 从左边开始展开 */
+    transition: transform 0.8s ease; /* 动画速度 */
+    border-radius: 8px;
+}
+
+/* hover时展开（JS会控制） */
+.aBackground.hovered::after {
+    transform: scaleX(1); /* 展开到100% */
+}
+.aBackground a{
+    color: rgb(255,200,0);
+    /* 虚线下划线 */
+    text-decoration: underline dashed;
+    /* 调节虚线离文字距离 */
+    text-underline-offset: 4px;
+    /* 下划线粗细 */
+    text-decoration-thickness: 1px;
+}
+
+
+
+.errorTitle {
+    font-size: 50px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+    text-align: center;
+}
+.errorTitlefor2{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 50px;
+    color: rgba(0,0,0,1);
+    transition: all 1s ease;
+    width: 100%;
+    height: 50px;
+    font-size: 50px;
+
+}
+#errorTitleFor {
+    width: 25px;
+}
+.errorTitle div{
+    width: 0;
+    color: rgba(0,0,0,0);
+}
+.errorTitle #errorTitleFormouse{
+    color: rgba(0,0,0,1);
+}
+
+
+
+
+
+
+
+.pc,.all {
+    background: rgba(0,0,0,0.4);
+    border-radius: 8px;
+    border: 5px;
+    width: auto;
+    height: auto;
+    display: flex;
+    /* ========== 新增/修改的关键行 ========== */
+    align-items: center; /* 让所有子元素垂直居中 */
+    gap: 10px; /* 头像和文字之间的间距，可自己调 */
+    padding: 10px; /* 给容器加一点内边距，避免贴边 */
+    /* ====================================== */
+    margin: 10px;
+}
+
+@media (max-width: 700px) {
+    .pc {
+        display: none !important;
+    }
+
+}
+
+/* 删掉你原来的 .pc,.all * 这一段，或者改成下面这样 */
+.pc,.all * {
+    overflow: hidden !important;
+    /* 删掉 display: inline-block，否则会干扰 flex 布局 */
+}
+
+#Mya {
+    width: auto;
+    height: 50px;
+    border-radius: 50%;
+    /* ========== 新增/修改的关键行 ========== */
+    display: flex; /* 让 a 标签也变成 flex，方便控制 */
+    align-items: center; /* 内部元素居中 */
+    gap: 8px; /* 图片和文字之间的间距 */
+    text-decoration: none; /* 去掉 a 标签的下划线 */
+    color: inherit; /* 继承父元素文字颜色 */
+    /* ====================================== */
+}
+
+#Mya #MyAuBackground{
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+#MyAu{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    /* ========== 新增/修改的关键行 ========== */
+    flex-shrink: 0; /* 防止头像被压缩变形 */
+    object-fit: cover; /* 保证图片不变形 */
+    /* ====================================== */
+}
+
+.LeftPcCard {
+    width: 200px;
+    height: auto;
+}
+
+#MyCardGithub,#MyCardWechat,#MyCardQQ{
+    width: 30px;
+    height: 30px;
+}
+#MyCardXiaoHongShu{
+    height: 30px;
+    width: auto;
+}
+#MusicPcCardForIconAndMoreForOutPut{
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+}
+#MusicPcCardForIconAndMoreForInPut{
+    width: 50px;
+    height: 50px;
+    margin: 10px 75px 10px 65px;
+}
+#MusicPcCard #MusicPcCardForIconAndMoreOutPut #MusicPcCardForIconAndMoreForInPut svg{
+    width: 70px !important;
+    height: 70px !important;
+    margin: 0 auto !important;
+}
+#MusicPcCardForTurn{
+    display: flex;
+    justify-content: center;
+    width: auto;
+    height: 50px;
+    margin: 0 auto;
+}
+#MusicPcCardForTurn button{
+    height: inherit;
+    margin: 5px;
+}
+#MusicPcCard{
+    display: block;
+}
+#MusicPcCard *{
+    margin: 0 auto;
+}
+.turn180{
+    transform: rotate(180deg);
+    /* 兼容 */
+    -webkit-transform: rotate(180deg);
+}
+#MusicPcCardForLastMusic,#MusicPcCardForNextMusic {
+    color: rgba(127,127,127,0.8);
+}
+
+#MyWorkPcCardForTitle{
+    position:absolute;
+    top:10px;
+    left: 0;
+}
+#MyWorkPcCard{
+    position:relative;
+    height: 300px;
+}
+
+
+
+#AboutMe{
+    margin-left: 5%;
+    font-size: 20px;
+
+    line-height: 1.5;
+    letter-spacing: 1px;
+}
+
+#PlaceConntLook{
+    font-size: 1px;
+}
+
+.AboutMebutton{
+    font-size: 15px;
+    background-color: rgba(0,0,0,0);
+    color: rgb(255 150 0 / 0.85);
+}
+
+#calendarBox {
+    width: 100%;
+    background: rgb(200 200 200 / 0.4);
+    border-radius: 10px;
+    padding: 16px;
+    box-sizing: border-box; /* 关键：padding 不撑大盒子 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+#calendarHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+#prevBtn, #nextBtn {
+    border: none;
+    background: rgb(168 202 255 / 0.7);
+    color: rgb(255 255 255 / 0.7);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#ymText {
+    font-size: 16px;
+    font-weight: 500;
+}
+#weekRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+}
+#dateBox {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+.cal-date {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    font-size: 14px;
+}
+.cal-today {
+    background: rgb(52 152 255 / 0.5);
+    color: rgb(255 255 255 / 0.6);
+    font-weight: bold;
+}
+
+
+/* ========================================
+   父级容器（固定宽高 + 顶部留白，避免挡到标题）
+   ======================================== */
+
+#workList {
+    /* ===== 固定尺寸 ===== */
+    width: 100%;
+    height: 300px;
+
+    /* ===== 溢出处理 ===== */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* ===== 关键：顶部留白，防止盖住标题 ===== */
+    padding: 40px 12px 12px;    /* 顶部40px给标题，左右内边距 */
+    box-sizing: border-box;
+
+    display: block;
+}
+
+/* ========================================
+   自定义滚动条（灰黑色风格）
+   ======================================== */
+
+#workList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#workList::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);        /* 极浅灰轨道 */
+    border-radius: 3px;
+}
+
+#workList::-webkit-scrollbar-thumb {
+    background: rgba(60, 60, 60, 0.5);     /* 灰色滑块 */
+    border-radius: 3px;
+}
+
+#workList::-webkit-scrollbar-thumb:hover {
+    background: rgba(40, 40, 40, 0.7);     /* 悬停时更深 */
+}
+
+/* ========================================
+   卡片容器（黑白灰配色）
+   ======================================== */
+
+.work-card {
+    /* ===== 尺寸控制 ===== */
+    width: 100%;
+    box-sizing: border-box;
+
+    /* ===== 黑白灰配色 - 浅灰卡片底 ===== */
+    background: rgba(220, 220, 220, 0.25);  /* 浅灰白半透明背景 */
+    border: 1px solid rgba(0, 0, 0, 0.15);  /* 淡黑色边框 */
+    border-radius: 8px;
+
+    /* ===== 内边距和间距 ===== */
+    padding: 12px 16px;
+    margin-bottom: 10px;
+
+    /* ===== 阴影 ===== */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+    /* ===== 布局（关键：防止名字被挤没） ===== */
+    display: flex;
+    align-items: center;
+    gap: 12px;                             /* 名字和按钮之间固定间距 */
+
+    /* ===== 过渡动画 ===== */
+    transition: all 0.3s ease;
+}
+
+/* 卡片悬停效果 */
+.work-card:hover {
+    background: rgba(180, 180, 180, 0.35); /* 悬停时变深一点 */
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   父容器（固定尺寸 + 防止遮挡标题）
+   ======================================== */
+
+#workList {
+    width: 100%;
+    height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* ===== 关键：顶部留出空间给标题 ===== */
+    margin-top: 60px;           /* 标题高度大约50px，留60px确保不重叠 */
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+/* 自定义滚动条（黑白灰风格） */
+#workList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#workList::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+#workList::-webkit-scrollbar-thumb {
+    background: rgba(80, 80, 80, 0.6);
+    border-radius: 3px;
+}
+
+/* ========================================
+   卡片容器（黑白灰配色）
+   ======================================== */
+
+.work-card {
+    width: 100%;
+    box-sizing: border-box;
+
+    /* ===== 黑白灰配色 ===== */
+    background: rgba(230, 230, 230, 0.8);  /* 浅灰白背景 */
+    border: 1px solid rgba(0, 0, 0, 0.2);  /* 淡黑边框 */
+    border-radius: 8px;
+
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+
+    /* ===== 布局：名字在左，按钮在右 ===== */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    transition: all 0.3s ease;
+}
+
+.work-card:hover {
+    background: rgba(200, 200, 200, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+/* ========================================
+   链接区域（修复名字消失问题）
+   ======================================== */
+
+.work-link {
+    text-decoration: none;
+    flex: 1;                  /* 占据左侧空间 */
+    min-width: 40px;          /* 最小宽度，确保名字能显示 */
+}
+
+.work-name {
+    /* ===== 关键：深黑色文字，确保能看见！ ===== */
+    color: #1a1a1a;           /* 深黑色，对比度高 */
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    /* 防止长文字撑破 */
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    transition: color 0.2s ease;
+}
+
+/* 运行中状态 */
+.work-link.running .work-name {
+    color: #000000;           /* 纯黑，突出显示 */
+    font-weight: 700;
+}
+
+.work-link.running:hover .work-name {
+    color: #444444;
+}
+
+/* 未运行状态 */
+.work-link.stopped .work-name {
+    color: #666666;           /* 中灰色 */
+}
+
+/* ========================================
+   按钮组
+   ======================================== */
+
+.work-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+/* ========================================
+   按钮（黑白灰配色，去掉蓝色！）
+   ======================================== */
+
+.work-btn {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1px solid #666666;  /* 灰色边框 */
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    white-space: nowrap;
+}
+
+/* 可用状态 - 深灰底白字 */
+.work-btn.active {
+    background: #333333;        /* 深灰色背景 */
+    color: #ffffff;             /* 白色文字 */
+    border-color: #333333;
+}
+
+.work-btn.active:hover {
+    background: #1a1a1a;        /* 悬停变黑色 */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 禁用状态 - 浅灰底灰字 */
+.work-btn.disabled {
+    background: #e0e0e0;        /* 浅灰色背景 */
+    color: #999999;             /* 灰色文字 */
+    border-color: #cccccc;
+    cursor: not-allowed;
+    pointer-events: none;        /* 禁止点击 */
+}
+
+/* ============================================================
+   我的作品卡片 - 整体容器
+   ============================================================ */
+#MyWorkPcCard {
+    position: relative;
+    padding: 10px 12px 12px;
+}
+
+/* 标题区域（我的作品）*/
+#MyWorkPcCardForTitle {
+    margin-left: 10px;
+    margin-bottom: 8px;
+}
+
+#MyWorkPcCardForTitle h1 {
+    font-size: 30px;
+    font-weight: 500;
+    margin: 0;
+    color: #1a1a1a;
+    letter-spacing: 1px;
+}
+
+/* ============================================================
+   workList - 列表容器（固定高度 + 垂直滚动）
+   ============================================================ */
+#workList {
+    width: 100%;
+    height: 280px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+/* 滚动条美化（黑白灰风格） */
+#workList::-webkit-scrollbar {
+    width: 5px;
+}
+#workList::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 3px;
+}
+#workList::-webkit-scrollbar-thumb {
+    background: rgba(60, 60, 60, 0.5);
+    border-radius: 3px;
+}
+#workList::-webkit-scrollbar-thumb:hover {
+    background: rgba(40, 40, 40, 0.7);
+}
+
+/* ============================================================
+   work-card - 单条作品卡片（黑白灰配色）
+   ============================================================ */
+.work-card {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(235, 235, 235, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    transition: all 0.25s ease;
+}
+
+.work-card:hover {
+    background: rgba(210, 210, 210, 0.9);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================
+   work-link / work-name - 项目名称（深色确保可见）
+   ============================================================ */
+.work-link {
+    text-decoration: none;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.work-name {
+    color: #1a1a1a;
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+/* 运行中 - 黑色加粗突出显示 */
+.work-link.running .work-name {
+    color: #000000;
+    font-weight: 600;
+}
+
+.work-link.running:hover .work-name {
+    color: #444444;
+}
+
+/* 未运行 - 灰色 */
+.work-link.stopped .work-name {
+    color: #666666;
+}
+
+.work-link.stopped:hover .work-name {
+    color: #333333;
+}
+
+/* ============================================================
+   work-actions - 按钮组
+   ============================================================ */
+.work-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   work-btn - 按钮（黑白灰配色，缩小尺寸）
+   ============================================================ */
+.work-btn {
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid #555;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    white-space: nowrap;
+}
+
+/* 可用状态 - 深灰底白字 */
+.work-btn.active {
+    background: #333;
+    color: #fff;
+    border-color: #333;
+}
+
+.work-btn.active:hover {
+    background: #1a1a1a;
+    transform: translateY(-1px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.work-btn.active:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* 禁用状态 - 浅灰底灰字 */
+.work-btn.disabled {
+    background: #d5d5d5;
+    color: #888;
+    border: 1px solid #bbb;
+    cursor: not-allowed;
+    pointer-events: none;        /* 禁止点击 */
+}
+
+.work-btn.disabled:hover {
+    background: #d5d5d5;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ============================================================
+   MyWriter 页面（放大版作品列表）
+   ============================================================ */
+.mywriter-container {
+    max-width: 1100px;
+    margin: 30px auto 60px;
+    padding: 30px 40px;
+    background: rgb(255 255 255 / 0.85);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.mywriter-title-box {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.mywriter-title-box h1 {
+    font-size: 36px;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0 0 8px 0;
+    letter-spacing: 2px;
+}
+
+.mywriter-subtitle {
+    font-size: 15px;
+    color: #666;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* 放大版 workList */
+.mywriter-list {
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.mywriter-list::-webkit-scrollbar {
+    width: 8px;
+}
+.mywriter-list::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+}
+.mywriter-list::-webkit-scrollbar-thumb {
+    background: rgba(60, 60, 60, 0.5);
+    border-radius: 4px;
+}
+.mywriter-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(40, 40, 40, 0.7);
+}
+
+/* 放大版 work-card */
+.mywriter-list .work-card {
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    gap: 12px;
+}
+
+.mywriter-list .work-name {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.mywriter-list .work-btn {
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+/* ============================================================
+   ContactMe 页面样式
+   ============================================================ */
+
+.contact-content {
+    margin-top: 20px;
+}
+
+.contact-section {
+    margin-bottom: 28px;
+}
+
+.contact-section-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: rgb(152 164 120);
+    margin: 0 0 14px 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(152, 164, 120, 0.25);
+}
+
+/* 联系方式列表 */
+.contact-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: rgba(180, 192, 144, 0.08);
+    border: 1px solid rgba(152, 164, 120, 0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.contact-item:hover {
+    background: rgba(180, 192, 144, 0.15);
+    border-color: rgba(152, 164, 120, 0.4);
+    transform: translateY(-2px);
+}
+
+.contact-icon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(152, 164, 120, 0.2);
+    border-radius: 8px;
+}
+
+.contact-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: rgb(152 164 120);
+}
+
+.contact-icon img {
+    width: 22px;
+    height: 22px;
+}
+
+.contact-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.contact-name {
+    font-size: 12px;
+    color: rgba(152, 164, 120, 0.7);
+    margin-bottom: 2px;
+}
+
+.contact-value {
+    font-size: 14px;
+    color: rgb(200 212 184);
+    word-break: break-all;
+}
+
+/* 留言表单 */
+.contact-form-box {
+    background: rgba(30, 35, 25, 0.6);
+    border: 1px solid rgba(152, 164, 120, 0.25);
+    border-radius: 10px;
+    padding: 22px 26px;
+}
+
+.contact-form-label {
+    font-size: 13px;
+    color: rgba(200, 212, 184, 0.85);
+    margin: 0 0 6px 0;
+}
+
+.contact-form-input,
+.contact-form-textarea {
+    width: 100%;
+    background: rgba(15, 18, 12, 0.7);
+    border: 1px solid rgba(152, 164, 120, 0.3);
+    border-radius: 6px;
+    padding: 10px 14px;
+    color: rgb(200 212 184);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    outline: none;
+    margin-bottom: 14px;
+}
+
+.contact-form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.contact-form-input:focus,
+.contact-form-textarea:focus {
+    border-color: rgba(255, 150, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 150, 0, 0.1);
+}
+
+.contact-form-submit {
+    margin-top: 4px;
+    width: 100%;
+    padding: 11px 24px;
+    background: rgb(255 150 0 / 85%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.contact-form-submit:hover:not(:disabled) {
+    background: rgb(255 150 0);
+    transform: translateY(-1px);
+}
+
+.contact-form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.contact-form-tip {
+    text-align: center;
+    margin: 10px 0 0 0;
+    font-size: 13px;
+    color: rgba(152, 164, 120, 0.8);
+    min-height: 18px;
+}
+
+.contact-form-tip.success {
+    color: rgb(90 200 120);
+}
+
+.contact-form-tip.error {
+    color: rgb(230 90 90);
+}
+
+/* 温馨提示 */
+.contact-tips-box {
+    background: rgba(30, 35, 25, 0.4);
+    border: 1px solid rgba(152, 164, 120, 0.2);
+    border-radius: 10px;
+    padding: 18px 22px;
+}
+
+.contact-tips-box p {
+    margin: 5px 0;
+    font-size: 13px;
+    color: rgba(200, 212, 184, 0.75);
+    line-height: 1.8;
+}
+
+/* 响应式 */
+@media (max-width: 600px) {
+    .contact-list {
+        grid-template-columns: 1fr;
+    }
+    .contact-form-box {
+        padding: 18px 20px;
+    }
+}
+
+/* ============================================================
+   Friend（友人）页面
+   ============================================================ */
+.friend-list {
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.friend-loading,
+.friend-empty {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 40px 0;
+    font-size: 15px;
+}
+
+.friend-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.friend-card:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 165, 0, 0.35);
+}
+
+.friend-avatar-wrap {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.friend-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.friend-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.friend-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+}
+
+.friend-about {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+}
+
+.friend-site {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 4px 10px;
+    background: rgba(255, 165, 0, 0.12);
+    color: #ffb347;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+    align-self: flex-start;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.friend-site:hover {
+    background: rgba(255, 165, 0, 0.25);
+    color: #ffcc66;
+}
+
+@media (max-width: 600px) {
+    .friend-card {
+        padding: 16px;
+        gap: 14px;
+    }
+    .friend-avatar-wrap {
+        width: 56px;
+        height: 56px;
+    }
+    .friend-name {
+        font-size: 16px;
+    }
+}
+
+/* ============================================================
+   Privacy（隐私声明）页面
+   ============================================================ */
+.privacy-content {
+    margin-top: 24px;
+    line-height: 1.8;
+}
+
+.privacy-heading {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin: 28px 0 10px;
+    padding-left: 12px;
+    border-left: 3px solid #ffb347;
+}
+
+.privacy-text {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 10px 0;
+}
+
+.privacy-text a {
+    color: #ffb347;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.privacy-text a:hover {
+    color: #ffcc66;
+}
+
+.privacy-list {
+    margin: 10px 0 10px 24px;
+    padding: 0;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 15px;
+}
+
+.privacy-list li {
+    margin: 6px 0;
+}
+
+.privacy-last {
+    margin-top: 36px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: right;
+}
+
+@media (max-width: 600px) {
+    .privacy-heading {
+        font-size: 18px;
+    }
+    .privacy-text,
+    .privacy-list {
+        font-size: 14px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   首页左右分列布局（仅影响 index.html，零影响其他页面）
+   原理：:has() 条件选择器，只有 #ui 内存在 .ui-col-left 才生效
+   ============================================================ */
+
+/* ---- 让 #ui 变成 flex 容器（仅当有 .ui-col-left 时）---- */
+#ui:has(.ui-col-left) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;                 /* 左右两列间距 */
+    padding: 10px 20px;       /* 整体留白 */
+}
+
+/* ---- 左列（pc 卡片们）：保持自然宽度 ---- */
+.ui-col-left {
+    flex-shrink: 0;           /* 不被压缩，保持原卡片宽度 */
+}
+
+/* ---- 右列（all 卡片们）：自动占满剩余全部空间 ---- */
+.ui-col-right {
+    flex: 1;                  /* 占据全部剩余空间 */
+    min-width: 0;             /* 允许缩小，防止内容溢出 */
+}
+
+/* ============================================================
+   .all 卡片样式（与 .pc / .LeftPcCard 一致外观，但宽度撑满右列）
+   ============================================================ */
+
+.all {
+    width: 100%;              /* 占满右列容器宽度 */
+    height: auto;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin: 10px 0;           /* 上下间距，左右不设（由容器控制） */
+    box-sizing: border-box;
+}
+
+/* ============================================================
+   响应式：小屏幕（<=700px）下竖向堆叠
+   ============================================================ */
+
+@media (max-width: 700px) {
+    #ui:has(.ui-col-left) {
+        flex-direction: column;   /* 竖向排列 */
+        align-items: center;
+    }
+    .ui-col-left,
+    .ui-col-right {
+        width: 100%;
+        max-width: 360px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==========================================================================
+   关键修复：让 .all 不再把标题和列表横向排成 flex items
+   原 .pc,.all { display:flex; align-items:center; } 导致 posts-header 与 posts-body 横向并排
+   ========================================================================== */
+#ui .ui-col-right .all {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;    /* 让子项横向占满 */
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+/* 让标题区与列表区都占满宽度 */
+#ui .ui-col-right .all .posts-header,
+#ui .ui-col-right .all .posts-body {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* 让每张帖子卡片也横向占满（避免 a 标签的 inline 行为导致变窄） */
+#ui .ui-col-right .all .post-card,
+#ui .ui-col-right .all .post-link {
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   以下保留之前的视觉样式（如已有则无需重复）
+   ========================================================================== */
+.posts-header {
+    padding: 12px 18px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+.posts-header h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(245, 245, 245, 0.95);
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.posts-body {
+    padding: 12px 18px 16px;
+    max-height: 560px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.post-card {
+    background: rgba(235, 235, 235, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    transition: all 0.25s ease;
+    overflow: hidden;
+}
+.post-card:last-child { margin-bottom: 0; }
+.post-card:hover {
+    background: rgba(245, 245, 245, 0.2);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.post-link {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+}
+
+.post-info {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.post-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(245, 245, 245, 0.95);
+    margin: 0 0 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-text {
+    font-size: 13px;
+    color: rgba(220, 220, 220, 0.8);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.post-img {
+    flex: 0 0 auto;
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.posts-body::-webkit-scrollbar {
+    width: 6px;
+}
+.posts-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+.posts-body::-webkit-scrollbar-thumb {
+    background: rgba(200, 200, 200, 0.35);
+    border-radius: 3px;
+}
+.posts-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(220, 220, 220, 0.55);
+}
+
+
+/* ============================================================
+   Post 帖子详情页样式
+   ============================================================ */
+
+/* ---------- 头部信息卡 ---------- */
+#PostHead {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 标题 */
+#PostHead #PostTitle {
+    font-size: 28px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0 0 14px 0;
+    padding: 0;
+    letter-spacing: 2px;
+    white-space: normal;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* 元信息行：头像 + 作者 · 日期 */
+#PostHead .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#PostHead #PostAvter {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+#PostHead #PostAvter #PostAvterImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+#PostHead #PostAuto {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
+    padding: 0;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+#PostHead .post-sep {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    margin: 0;
+    user-select: none;
+}
+
+#PostHead #PostDate {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+/* ---------- 头部与正文之间的横线 ---------- */
+#PostDivider {
+    border: none;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    margin: 22px 4px;
+}
+
+/* ---------- 正文内容卡 ---------- */
+#PostText {
+    background: rgba(0, 0, 0, 0.42);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 0;
+    box-sizing: border-box;
+    color: rgba(245, 245, 245, 0.92);
+    font-size: 16px;
+    line-height: 1.9;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    min-height: 200px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+/* 正文内段落 */
+#PostText p,
+#PostText div {
+    margin: 0 0 14px 0;
+    padding: 0;
+    white-space: normal;
+    color: inherit;
+    font-size: inherit;
+}
+
+#PostText p:last-child,
+#PostText div:last-child {
+    margin-bottom: 0;
+}
+
+/* 正文内标题 */
+#PostText h1,
+#PostText h2,
+#PostText h3,
+#PostText h4,
+#PostText h5,
+#PostText h6 {
+    color: rgba(255, 255, 255, 0.95);
+    margin: 24px 0 12px 0;
+    padding: 0;
+    font-weight: 600;
+    white-space: normal;
+    letter-spacing: 2px;
+}
+
+#PostText h1 { font-size: 26px; }
+#PostText h2 { font-size: 22px; }
+#PostText h3 { font-size: 19px; }
+#PostText h4 { font-size: 17px; }
+#PostText h5 { font-size: 15px; }
+#PostText h6 { font-size: 14px; color: rgba(255, 255, 255, 0.8); }
+
+/* 正文内列表 */
+#PostText ul,
+#PostText ol {
+    margin: 10px 0 14px 0;
+    padding-left: 28px;
+    font-size: 16px;
+}
+
+#PostText li {
+    margin: 4px 0;
+    list-style: disc;
+    white-space: normal;
+}
+
+#PostText ol li {
+    list-style: decimal;
+}
+
+/* 正文内引用 */
+#PostText blockquote {
+    margin: 16px 0;
+    padding: 12px 18px;
+    border-left: 4px solid rgba(255, 200, 0, 0.7);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0 8px 8px 0;
+    color: rgba(245, 245, 245, 0.85);
+    font-style: italic;
+}
+
+/* 正文内链接 */
+#PostText a {
+    color: rgb(255, 200, 0);
+    text-decoration: underline dashed;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    transition: opacity 0.2s ease;
+}
+
+#PostText a:hover {
+    opacity: 0.75;
+}
+
+/* 正文内图片 */
+#PostText img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 14px auto;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 正文内代码 */
+#PostText code {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    color: rgba(255, 220, 150, 0.95);
+}
+
+#PostText pre {
+    background: rgba(0, 0, 0, 0.55);
+    padding: 14px 18px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 14px 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+#PostText pre code {
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+
+/* 正文内分隔线 */
+#PostText hr {
+    border: none;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+}
+
+/* 正文内加粗/斜体 */
+#PostText strong,
+#PostText b {
+    color: rgba(255, 255, 255, 0.98);
+    font-weight: 600;
+}
+
+#PostText em,
+#PostText i {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+/* ---------- 响应式：小屏 ---------- */
+@media (max-width: 700px) {
+    #PostHead {
+        padding: 14px 16px;
+        border-radius: 6px;
+    }
+
+    #PostHead #PostTitle {
+        font-size: 22px;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+
+    #PostHead #PostAvter {
+        width: 40px;
+        height: 40px;
+    }
+
+    #PostHead #PostAuto,
+    #PostHead .post-sep,
+    #PostHead #PostDate {
+        font-size: 12px;
+    }
+
+    #PostDivider {
+        margin: 16px 2px;
+    }
+
+    #PostText {
+        padding: 18px 20px;
+        font-size: 15px;
+        line-height: 1.8;
+        border-radius: 10px;
+    }
+
+    #PostText h1 { font-size: 22px; }
+    #PostText h2 { font-size: 19px; }
+    #PostText h3 { font-size: 17px; }
+}
+
+/* ============================================================
+   PageWindow 弹出窗口样式
+   ============================================================ */
+
+/* 遮罩层 */
+#PageWindow {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 遮罩背景 */
+.page-window-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* 弹出内容框 */
+.page-window-box {
+    position: relative;
+    background: rgba(30, 30, 30, 0.97);
+    border-radius: 12px;
+    padding: 28px 32px;
+    min-width: 340px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 15px;
+    line-height: 1.6;
+    box-sizing: border-box;
+    animation: pageWindowFadeIn 0.2s ease;
+}
+
+@keyframes pageWindowFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* 关闭按钮 */
+.page-window-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.page-window-close:hover {
+    background: rgba(255, 80, 80, 0.25);
+    border-color: rgba(255, 80, 80, 0.5);
+    color: rgba(255, 100, 100, 1);
+}
+
+/* 弹出窗口标题 */
+.page-window-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0 0 20px 0;
+    padding: 0 28px 0 0;
+    letter-spacing: 1px;
+}
+
+/* 弹出窗口副标题/标签 */
+.page-window-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.65);
+    margin: 0 0 6px 0;
+    letter-spacing: 0.5px;
+}
+
+/* 输入框 & 下拉框 */
+.page-window-input,
+.page-window-select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 9px 12px;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease;
+    margin-bottom: 16px;
+}
+
+.page-window-select {
+    cursor: pointer;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.page-window-input:focus,
+.page-window-select:focus {
+    border-color: rgba(255, 200, 0, 0.6);
+}
+
+.page-window-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.page-window-select option {
+    background: #2a2a2a;
+    color: rgba(255, 255, 255, 0.92);
+    padding: 6px 10px;
+}
+
+.page-window-select option:disabled {
+    color: rgba(255, 255, 255, 0.35);
+    font-style: italic;
+}
+
+/* 提交按钮 */
+.page-window-submit {
+    width: 100%;
+    padding: 10px 0;
+    background: rgba(255, 200, 0, 0.85);
+    border: none;
+    border-radius: 6px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 4px;
+}
+
+.page-window-submit:hover {
+    background: rgba(255, 200, 0, 1);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(255, 200, 0, 0.3);
+}
+
+.page-window-submit:active {
+    transform: translateY(0);
+}
+
+.page-window-submit:disabled {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 状态提示文字 */
+.page-window-tip {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    margin: 10px 0 0 0;
+}
+
+.page-window-tip.success {
+    color: rgba(100, 220, 120, 0.9);
+}
+
+.page-window-tip.error {
+    color: rgba(255, 100, 100, 0.9);
+}
+
+/* 帮助弹窗图片 */
+.page-window-help-img {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+    display: block;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* 小屏幕适配 */
+@media (max-width: 500px) {
+    #PageWindow {
+        padding: 12px;
+        align-items: flex-end;
+    }
+
+    .page-window-box {
+        min-width: unset;
+        padding: 22px 20px;
+        border-radius: 10px 10px 0 0;
+    }
+}
+#page-window-box-all{
+    text-align:center;
+}
+#page-window-box-text{
+    margin: 20px 0;
+    color: #c8d4b8;
+    font-size: 16px;
+}
+#page-window-box-title{
+    color: #7a8468;
+    font-size: 13px
+}
+
+/* ============================================================
+   AboutMe 个人介绍页面样式
+   ============================================================ */
+
+@font-face {
+    font-family: 'CEFFontsCJK';
+    src: url('/font/CEFFontsCJK.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.aboutme-wrapper {
+    max-width: 980px;
+    margin: 20px auto 40px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 24px;
+    font-family: 'CEFFontsCJK', sans-serif;
+}
+
+/* ---------- 侧边栏目录 ---------- */
+.aboutme-sidebar {
+    flex-shrink: 0;
+    width: 160px;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+}
+
+.aboutme-sidebar-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.aboutme-sidebar-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.aboutme-sidebar-list li {
+    margin-bottom: 4px;
+}
+
+.aboutme-sidebar-list a {
+    display: block;
+    padding: 8px 12px;
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+.aboutme-sidebar-list a:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: #222;
+}
+
+/* ---------- 面板容器 ---------- */
+.aboutme-panels {
+    flex: 1;
+    min-width: 0;
+}
+
+.aboutme-panel {
+    background: rgba(210, 210, 210, 0.8);
+    border-radius: 8px;
+    padding: 10px 0;
+    margin-bottom: 10px;
+}
+
+.aboutme-panel-note {
+    background: rgba(210, 210, 210, 0.8);
+}
+
+.AboutMebutton {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    font-family: inherit;
+}
+
+.AboutMebutton:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 800px) {
+    .aboutme-sidebar {
+        display: none;
+    }
+    .aboutme-wrapper {
+        padding: 0 12px;
+    }
+}
