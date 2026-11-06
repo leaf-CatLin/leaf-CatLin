@@ -1,4 +1,4 @@
-import os
+﻿import os
 import random
 import json
 import requests
@@ -7,8 +7,6 @@ from typing import Literal
 from xml.sax.saxutils import escape
 
 from flask import *
-
-import content_db
 
 # 可选：本地运行时从 .env 读配置；Vercel 上由平台注入环境变量，没有 .env 也不会报错
 try:
@@ -53,6 +51,44 @@ POSTS_FILE = os.path.join(BASE_DIR, 'posts.json')
 # 注入模板全局变量：模板里直接写 {{ ASSETS }} / {{ IMG }} / {{ API }} / {{ ASSETS_VER }}
 app.jinja_env.globals.update(ASSETS=ASSETS, IMG=IMG, API=API, AUDIO=AUDIO,
 							 STATUS_API=STATUS_API, ASSETS_VER=ASSETS_VER)
+
+
+def content_dsn():
+	"""内容库连接串：优先 CRAZYING_DATABASE_URL，其次 Vercel 注入的 DATABASE_URL。"""
+	for name in ('CRAZYING_DATABASE_URL', 'DATABASE_URL', 'POSTGRES_URL'):
+		value = os.environ.get(name, '').strip()
+		if value:
+			return value
+	return ''
+
+
+def content_query(sql, params=None):
+	"""只读查询内容库，返回 dict 列表；没配库或连不上时返回空列表，避免整站 500。"""
+	url = content_dsn()
+	if not url:
+		return []
+	try:
+		import psycopg2
+		import psycopg2.extras
+	except ImportError:
+		return []
+
+	conn = None
+	try:
+		conn = psycopg2.connect(url, connect_timeout=5,
+								cursor_factory=psycopg2.extras.RealDictCursor)
+		with conn.cursor() as cur:
+			cur.execute(sql, params or ())
+			return [dict(row) for row in cur.fetchall()]
+	except Exception as exc:  # noqa: BLE001
+		print('[content_db]', exc)
+		return []
+	finally:
+		if conn is not None:
+			try:
+				conn.close()
+			except Exception:  # noqa: BLE001
+				pass
 
 
 def render_page(content_template, page_title=None, page_desc=None, status=200, **extra):
@@ -355,7 +391,7 @@ def date_text(value):
 # ---------------------------------------------------------------------------
 @app.route('/work')
 def work():
-	rows = content_db.query(
+	rows = content_query(
 		'SELECT name, link, status, can_join, can_support FROM site_works '
 		'WHERE is_published ORDER BY sort_order, id')
 	return jsonify([{
@@ -369,7 +405,7 @@ def work():
 
 @app.route('/post')
 def post_list():
-	rows = content_db.query(
+	rows = content_query(
 		'SELECT id, title, excerpt, image, link, published_at FROM site_posts '
 		'WHERE is_published ORDER BY published_at DESC, id DESC')
 	return jsonify([{
@@ -383,7 +419,7 @@ def post_list():
 
 @app.route('/api/post/<int:post_id>')
 def api_post(post_id):
-	rows = content_db.query(
+	rows = content_query(
 		'SELECT id, title, content, author, avatar, published_at FROM site_posts '
 		'WHERE id = %s AND is_published', (post_id,))
 	if not rows:
@@ -400,7 +436,7 @@ def api_post(post_id):
 
 @app.route('/api/friend')
 def friend_list():
-	rows = content_db.query(
+	rows = content_query(
 		'SELECT name, site, avatar, about FROM site_friends '
 		'WHERE is_published ORDER BY sort_order, id')
 	return jsonify([{
@@ -414,7 +450,7 @@ def friend_list():
 @app.route('/rss.xml')
 def rss():
 	# 动态合成 RSS 2.0：数据源是内容库的 site_posts，与首页"碎碎念"一致
-	rows = content_db.query(
+	rows = content_query(
 		'SELECT id, title, excerpt, link, published_at FROM site_posts '
 		'WHERE is_published ORDER BY published_at DESC, id DESC')
 	if rows:
@@ -424,7 +460,7 @@ def rss():
 			'date': row['published_at'],
 			'desc': row['excerpt'] or '',
 		} for row in rows]
-	elif content_db.dsn():
+	elif content_dsn():
 		posts = []
 	else:
 		# 本地没配数据库时退回仓库内的静态 posts.json
