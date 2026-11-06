@@ -1,6 +1,5 @@
 ﻿import os
 import random
-import json
 import requests
 from datetime import datetime, timezone
 from typing import Literal
@@ -45,8 +44,6 @@ ASSETS_VER = os.environ.get('CRAZYING_ASSETS_VER', '30')
 
 # 静态资源目录：CSS / JS / 字体 / 头像图片 / 其它图片，都已合并进本仓库 server/static
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-# 没配数据库时的 RSS 兜底数据源（正常线上已不再使用，数据全在内容库）
-POSTS_FILE = os.path.join(BASE_DIR, 'posts.json')
 
 # 注入模板全局变量：模板里直接写 {{ ASSETS }} / {{ IMG }} / {{ API }} / {{ ASSETS_VER }}
 app.jinja_env.globals.update(ASSETS=ASSETS, IMG=IMG, API=API, AUDIO=AUDIO,
@@ -453,22 +450,12 @@ def rss():
 	rows = content_query(
 		'SELECT id, title, excerpt, link, published_at FROM site_posts '
 		'WHERE is_published ORDER BY published_at DESC, id DESC')
-	if rows:
-		posts = [{
-			'title': row['title'],
-			'link': row['link'] or '/post/%d' % row['id'],
-			'date': row['published_at'],
-			'desc': row['excerpt'] or '',
-		} for row in rows]
-	elif content_dsn():
-		posts = []
-	else:
-		# 本地没配数据库时退回仓库内的静态 posts.json
-		try:
-			with open(POSTS_FILE, encoding='utf-8') as f:
-				posts = json.load(f)
-		except (OSError, ValueError):
-			posts = []
+	posts = [{
+		'title': row['title'],
+		'link': row['link'] or '/post/%d' % row['id'],
+		'date': row['published_at'],
+		'desc': row['excerpt'] or '',
+	} for row in rows]
 
 	posts = sorted(posts, key=lambda p: str(p.get('date') or ''), reverse=True)
 
