@@ -170,6 +170,9 @@ cython_debug/
 # AI
 .qoder/
 
+# 本地环境变量（数据库连接串等，千万不能提交）
+.env
+
 # Ruff stuff:
 .ruff_cache/
 

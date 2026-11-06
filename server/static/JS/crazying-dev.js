@@ -27,10 +27,11 @@
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
         });
     }
-    /** 把裸域名补成协议相对链接 */
+    /** 把裸域名补成协议相对链接；站内相对路径（以 / 开头）原样保留 */
     function normalizeUrl(u) {
         if (!u) return '';
-        return /^(https?:)?\/\//i.test(u) ? u : '//' + u;
+        if (/^(https?:)?\/\//i.test(u) || u.charAt(0) === '/') return u;
+        return '//' + u;
     }
     function fmtTime(sec) {
         if (!isFinite(sec) || sec < 0) sec = 0;
@@ -564,7 +565,7 @@
         var id = match ? Number(match[1]) : null;
         if (id === null) return;
 
-        fetch(API + '/post/' + id)
+        fetch(API + '/api/post/' + id)
             .then(function (res) {
                 if (!res.ok) throw new Error('HTTP ' + res.status);
                 return res.json();
@@ -618,7 +619,7 @@
         if (!box) return;
         box.innerHTML = '<div class="state"><span class="state__icon">🐾</span>友链加载中…</div>';
 
-        fetch(API + '/friend')
+        fetch(API + '/api/friend')
             .then(function (res) { return res.json(); })
             .then(function (list) {
                 if (!Array.isArray(list) || !list.length) {

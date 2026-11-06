@@ -8,6 +8,8 @@ from xml.sax.saxutils import escape
 
 from flask import *
 
+import content_db
+
 # 可选：本地运行时从 .env 读配置；Vercel 上由平台注入环境变量，没有 .env 也不会报错
 try:
 	from dotenv import load_dotenv
@@ -32,6 +34,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 #   CRAZYING_STATUS_API    妖精论坛的状态日志接口（网站状态统计图的数据源）
 #                          注意用 www 域名：裸域会 301 且跳转响应没有 CORS 头
 #   CRAZYING_ASSETS_VER    资源版本号，改这个就能让浏览器立刻拿到新 CSS/JS
+#   CRAZYING_DATABASE_URL  主站内容库（Neon Postgres），作品 / 帖子 / 友链都从这里读
 # ---------------------------------------------------------------------------
 SITE = os.environ.get('CRAZYING_SITE_BASE', 'https://leaf-catlin.com').rstrip('/')
 ASSETS = os.environ.get('CRAZYING_ASSETS_BASE', '').rstrip('/')
@@ -40,11 +43,11 @@ API = os.environ.get('CRAZYING_API_BASE', '').rstrip('/')
 # 歌单音频体积太大（单个约 1.8MB，共 11 个），暂不进仓库，仍走旧 CDN
 AUDIO = os.environ.get('CRAZYING_AUDIO_BASE', 'https://assets.crazying-dev.top').rstrip('/')
 STATUS_API = os.environ.get('CRAZYING_STATUS_API', 'https://www.yjlt.top/api/status-log')
-ASSETS_VER = os.environ.get('CRAZYING_ASSETS_VER', '29')
+ASSETS_VER = os.environ.get('CRAZYING_ASSETS_VER', '30')
 
 # 静态资源目录：CSS / JS / 字体 / 头像图片 / 其它图片，都已合并进本仓库 server/static
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-# 碎碎念数据源，首页列表与 /rss.xml 共用
+# 没配数据库时的 RSS 兜底数据源（正常线上已不再使用，数据全在内容库）
 POSTS_FILE = os.path.join(BASE_DIR, 'posts.json')
 
 # 注入模板全局变量：模板里直接写 {{ ASSETS }} / {{ IMG }} / {{ API }} / {{ ASSETS_VER }}
@@ -326,23 +329,110 @@ _MONTHS = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct',
 
 
 def rfc822(date_str):
-	"""把 posts.json 里的 yyyy-mm-dd 转成 RSS 要求的 RFC822 时间（东八区）。"""
+	"""把日期转成 RSS 要求的 RFC822 时间（东八区）。"""
 	try:
-		dt = datetime.strptime(str(date_str), '%Y-%m-%d')
+		dt = datetime.strptime(str(date_str)[:10], '%Y-%m-%d')
 	except (TypeError, ValueError):
 		dt = datetime.now(timezone.utc).replace(tzinfo=None)
 	return '%s, %02d %s %d 00:00:00 +0800' % (
 		_WEEKDAYS[dt.weekday()], dt.day, _MONTHS[dt.month - 1], dt.year)
 
 
+def date_text(value):
+	"""数据库里的 DATE / TIMESTAMP 统一成前端习惯的 'yyyy-mm-dd HH:MM:SS'。"""
+	if isinstance(value, datetime):
+		return value.strftime('%Y-%m-%d %H:%M:%S')
+	if value is None:
+		return ''
+	try:
+		return value.strftime('%Y-%m-%d') + ' 00:00:00'
+	except AttributeError:
+		return str(value)
+
+
+# ---------------------------------------------------------------------------
+# 内容接口：作品 / 帖子 / 友链全部来自 Neon 内容库（管理端 Self-Website 维护）
+# ---------------------------------------------------------------------------
+@app.route('/work')
+def work():
+	rows = content_db.query(
+		'SELECT name, link, status, can_join, can_support FROM site_works '
+		'WHERE is_published ORDER BY sort_order, id')
+	return jsonify([{
+		'name': row['name'],
+		'from': row['link'] or '',
+		'run': int(row['status']),
+		'join': 1 if row['can_join'] else 0,
+		'help': 1 if row['can_support'] else 0,
+	} for row in rows])
+
+
+@app.route('/post')
+def post_list():
+	rows = content_db.query(
+		'SELECT id, title, excerpt, image, link, published_at FROM site_posts '
+		'WHERE is_published ORDER BY published_at DESC, id DESC')
+	return jsonify([{
+		'title': row['title'],
+		'text': row['excerpt'] or '',
+		'img': row['image'] or '',
+		'link': row['link'] or '/post/%d' % row['id'],
+		'date': date_text(row['published_at']),
+	} for row in rows])
+
+
+@app.route('/api/post/<int:post_id>')
+def api_post(post_id):
+	rows = content_db.query(
+		'SELECT id, title, content, author, avatar, published_at FROM site_posts '
+		'WHERE id = %s AND is_published', (post_id,))
+	if not rows:
+		return jsonify({'error': '文章不存在'}), 404
+	row = rows[0]
+	return jsonify({
+		'title': row['title'],
+		'text': row['content'] or '',
+		'auto': row['author'] or '',
+		'avter': row['avatar'] or '',
+		'date': date_text(row['published_at']),
+	})
+
+
+@app.route('/api/friend')
+def friend_list():
+	rows = content_db.query(
+		'SELECT name, site, avatar, about FROM site_friends '
+		'WHERE is_published ORDER BY sort_order, id')
+	return jsonify([{
+		'name': row['name'],
+		'avter': row['avatar'] or '',
+		'OneWebSite': row['site'] or '',
+		'AboutTA': row['about'] or '',
+	} for row in rows])
+
+
 @app.route('/rss.xml')
 def rss():
-	# 动态合成 RSS 2.0：数据源就是本仓库的 server/posts.json，与首页"碎碎念"一致
-	try:
-		with open(POSTS_FILE, encoding='utf-8') as f:
-			posts = json.load(f)
-	except (OSError, ValueError):
+	# 动态合成 RSS 2.0：数据源是内容库的 site_posts，与首页"碎碎念"一致
+	rows = content_db.query(
+		'SELECT id, title, excerpt, link, published_at FROM site_posts '
+		'WHERE is_published ORDER BY published_at DESC, id DESC')
+	if rows:
+		posts = [{
+			'title': row['title'],
+			'link': row['link'] or '/post/%d' % row['id'],
+			'date': row['published_at'],
+			'desc': row['excerpt'] or '',
+		} for row in rows]
+	elif content_db.dsn():
 		posts = []
+	else:
+		# 本地没配数据库时退回仓库内的静态 posts.json
+		try:
+			with open(POSTS_FILE, encoding='utf-8') as f:
+				posts = json.load(f)
+		except (OSError, ValueError):
+			posts = []
 
 	posts = sorted(posts, key=lambda p: str(p.get('date') or ''), reverse=True)
 
