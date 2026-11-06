@@ -2,7 +2,9 @@ import os
 import random
 import json
 import requests
+from datetime import datetime, timezone
 from typing import Literal
+from xml.sax.saxutils import escape
 
 from flask import *
 
@@ -42,6 +44,8 @@ ASSETS_VER = os.environ.get('CRAZYING_ASSETS_VER', '29')
 
 # 静态资源目录：CSS / JS / 字体 / 头像图片 / 其它图片，都已合并进本仓库 server/static
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
+# 碎碎念数据源，首页列表与 /rss.xml 共用
+POSTS_FILE = os.path.join(BASE_DIR, 'posts.json')
 
 # 注入模板全局变量：模板里直接写 {{ ASSETS }} / {{ IMG }} / {{ API }} / {{ ASSETS_VER }}
 app.jinja_env.globals.update(ASSETS=ASSETS, IMG=IMG, API=API, AUDIO=AUDIO,
@@ -317,11 +321,63 @@ def bg():
 	abort(400)
 
 
+_WEEKDAYS = ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
+_MONTHS = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+
+
+def rfc822(date_str):
+	"""把 posts.json 里的 yyyy-mm-dd 转成 RSS 要求的 RFC822 时间（东八区）。"""
+	try:
+		dt = datetime.strptime(str(date_str), '%Y-%m-%d')
+	except (TypeError, ValueError):
+		dt = datetime.now(timezone.utc).replace(tzinfo=None)
+	return '%s, %02d %s %d 00:00:00 +0800' % (
+		_WEEKDAYS[dt.weekday()], dt.day, _MONTHS[dt.month - 1], dt.year)
+
+
 @app.route('/rss.xml')
 def rss():
-	# RSS 由后端的接口服务提供，走 /api/rss.xml 前缀，
-	# 不要直接跳回 /rss.xml 本身，否则会形成循环跳转
-	return redirect(API + '/api/rss.xml' if API else '/api/rss.xml')
+	# 动态合成 RSS 2.0：数据源就是本仓库的 server/posts.json，与首页"碎碎念"一致
+	try:
+		with open(POSTS_FILE, encoding='utf-8') as f:
+			posts = json.load(f)
+	except (OSError, ValueError):
+		posts = []
+
+	posts = sorted(posts, key=lambda p: str(p.get('date') or ''), reverse=True)
+
+	def esc(value):
+		return escape(str(value or ''), {'"': '&quot;', "'": '&apos;'})
+
+	items = []
+	for post in posts:
+		link = str(post.get('link') or '')
+		if not link.startswith('http'):
+			link = SITE + '/' + link.lstrip('/')
+		items.append(
+			'<item>'
+			'<title>%s</title>'
+			'<link>%s</link>'
+			'<guid isPermaLink="true">%s</guid>'
+			'<pubDate>%s</pubDate>'
+			'<description>%s</description>'
+			'</item>' % (esc(post.get('title')), esc(link), esc(link),
+						 rfc822(post.get('date')), esc(post.get('desc')))
+		)
+
+	last_build = rfc822(posts[0].get('date')) if posts else rfc822('')
+	xml = (
+		'<?xml version="1.0" encoding="UTF-8"?>'
+		'<rss version="2.0"><channel>'
+		'<title>林の窝 · 碎碎念</title>'
+		'<link>%s/</link>'
+		'<description>一个喜欢玩电脑的理科生，罗小黑死粉，会一点点 Python。</description>'
+		'<language>zh-CN</language>'
+		'<lastBuildDate>%s</lastBuildDate>'
+		'%s'
+		'</channel></rss>' % (SITE, last_build, ''.join(items))
+	)
+	return Response(xml, mimetype='application/rss+xml')
 
 
 @app.errorhandler(404)
