@@ -423,14 +423,15 @@ def post_list():
 @app.route('/api/post/<int:post_id>')
 def api_post(post_id):
 	rows = content_query(
-		'SELECT id, title, content, author, avatar, published_at FROM site_posts '
+		'SELECT id, title, content, excerpt, author, avatar, published_at FROM site_posts '
 		'WHERE id = %s AND is_published', (post_id,))
 	if not rows:
 		return jsonify({'error': '文章不存在'}), 404
 	row = rows[0]
 	return jsonify({
 		'title': row['title'],
-		'text': row['content'] or '',
+		# 正文为空时退回摘要，避免详情页只显示「还没有内容」
+		'text': row['content'] or row['excerpt'] or '',
 		'auto': row['author'] or '',
 		'avter': row['avatar'] or '',
 		'date': date_text(row['published_at']),
