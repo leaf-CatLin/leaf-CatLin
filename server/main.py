@@ -32,6 +32,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 #                          注意用 www 域名：裸域会 301 且跳转响应没有 CORS 头
 #   CRAZYING_ASSETS_VER    资源版本号，改这个就能让浏览器立刻拿到新 CSS/JS
 #   CRAZYING_DATABASE_URL  主站内容库（Neon Postgres），作品 / 帖子 / 友链都从这里读
+#                          也兼容 SELF_WEBSITE_DATABASE_URL / SELF_WEBSITE_POSTGRES_URL
 # ---------------------------------------------------------------------------
 SITE = os.environ.get('CRAZYING_SITE_BASE', 'https://leaf-catlin.com').rstrip('/')
 ASSETS = os.environ.get('CRAZYING_ASSETS_BASE', '').rstrip('/')
@@ -51,11 +52,16 @@ app.jinja_env.globals.update(ASSETS=ASSETS, IMG=IMG, API=API, AUDIO=AUDIO,
 
 
 def content_dsn():
-	"""内容库连接串：优先 CRAZYING_DATABASE_URL，其次 Vercel 注入的 DATABASE_URL。"""
-	for name in ('CRAZYING_DATABASE_URL', 'DATABASE_URL', 'POSTGRES_URL'):
+	"""内容库连接串：优先 SELF_WEBSITE_*，其次本仓库原有的 CRAZYING_*，最后 Vercel 注入的通用变量。"""
+	for name in ('SELF_WEBSITE_DATABASE_URL', 'SELF_WEBSITE_POSTGRES_URL',
+				 'CRAZYING_DATABASE_URL', 'DATABASE_URL', 'POSTGRES_URL'):
 		value = os.environ.get(name, '').strip()
 		if value:
 			return value
+	# 兜底：任何 SELF_WEBSITE_ 前缀且值是 Postgres 连接串的变量
+	for key, value in os.environ.items():
+		if key.startswith('SELF_WEBSITE_') and value.strip().startswith('postgresql://'):
+			return value.strip()
 	return ''
 
 
